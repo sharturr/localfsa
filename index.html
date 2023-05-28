@@ -2,241 +2,261 @@
 <html>
 
 <head>
-	<meta charset='utf-8'>
-	<title>Минимизация конечных автоматов</title>
+  <meta charset='utf-8'>
+  <title>Минимизация конечных автоматов</title>
 
-	<style type="text/css">
-		* {
-			font-family: 'Montserrat', sans-serif;
-		}
+  <style type="text/css">
+    * {
+      font-family: 'Montserrat', sans-serif;
+    }
 
-		body {
-			margin: 0;
-			padding-bottom: 5em;
-			padding-top: 10px;
+    body {
+      margin: 0;
+      padding-bottom: 5em;
+      padding-top: 10px;
 
-			width: 100%;
+      width: 100%;
 
-			background: url(#);
-		}
+      /* background: url(#); */
+    }
 
-		/* <Боковая панель цветов> */
-		.sidenav {
-			width: 70px;
-			position: fixed;
-			z-index: 1;
-			top: 70px;
-			left: 10px;
-			background: lightgrey;
-			overflow-x: hidden;
-			border-radius: 30px;
-			padding: 5px 0px;
-		}
+    /* <Боковая панель цветов> */
+    .sidenav {
+      width: 70px;
+      position: fixed;
+      z-index: 1;
+      top: 70px;
+      left: 10px;
+      background: lightgrey;
+      overflow-x: hidden;
+      border-radius: 30px;
+      padding: 5px 0px;
+    }
 
-		.ColorBox {
-			margin: auto;
-			margin-top: 15px;
-			margin-bottom: 15px;
-			width: 40px;
-			height: 40px;
-			display: block;
-			border-radius: 20px;
-		}
+    .ColorBox {
+      margin: auto;
+      margin-top: 15px;
+      margin-bottom: 15px;
+      width: 40px;
+      height: 40px;
+      display: block;
+      border-radius: 20px;
+    }
 
-		/* Шапка сайта */
-		.title {
-			width: 100%;
-			padding: 15px 0;
-			padding-bottom: 0px;
+    /* Шапка сайта */
+    .title {
+      width: 100%;
+      padding: 15px 0;
+      padding-bottom: 0px;
 
-			align-items: center;
+      align-items: center;
 
-			font-size: 25px;
-			font-weight: 700;
-			text-align: center;
-			color: #131514;
-		}
+      font-size: 25px;
+      font-weight: 700;
+      text-align: center;
+      color: #131514;
+    }
 
-		/*Стиль таблицы*/
-		table.Mytable {
-			width: 70%;
-			background: black;
-			color: black;
-			border-spacing: 3px;
-			margin: 5px auto;
-			margin-bottom: 20px;
-		}
+    /*Стиль таблицы*/
+    table.Mytable {
+      width: 70%;
+      background: black;
+      color: black;
+      border-spacing: 3px;
+      margin: 5px auto;
+      margin-bottom: 20px;
+    }
 
-		td,
-		th {
+    td,
+    th {
 
-			background: white;
-			width: 40px;
-			height: 40px;
-			text-align: center;
-		}
+      background: white;
+      width: 40px;
+      height: 40px;
+      text-align: center;
+    }
 
-		/*Стиль кнопки для Подтверждения*/
-		.buttonP {
-			margin: 0px auto;
-			text-decoration: none;
-			outline: none;
-			border: none;
-			display: block;
-			width: 170px;
-			height: 45px;
-			line-height: 45px;
-			border-radius: 20px;
-			/* transform: translateX(-50%); */
-			font-size: 15px;
-			text-align: center;
-			letter-spacing: 3px;
-			font-weight: 700;
-			color: #524f4e;
-			background: white;
-			box-shadow: 0 8px 15px rgba(0, 0, 0, .1);
-			transition: .3s;
-		}
+    /*Стиль кнопки для Подтверждения*/
+    .buttonP {
+      margin: 0px auto;
+      text-decoration: none;
+      outline: none;
+      border: none;
+      display: block;
+      width: 170px;
+      height: 45px;
+      line-height: 45px;
+      border-radius: 20px;
+      /* transform: translateX(-50%); */
+      font-size: 15px;
+      text-align: center;
+      letter-spacing: 3px;
+      font-weight: 700;
+      color: #524f4e;
+      background: white;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, .1);
+      transition: .3s;
+    }
 
-		.buttonP:hover {
-			background: #2EE59D;
-			box-shadow: 0 15px 20px rgba(46, 229, 157, .4);
-			color: white;
-			transform: translate(0px, -7px);
-		}
+    .buttonP:hover {
+      background: #2EE59D;
+      box-shadow: 0 15px 20px rgba(46, 229, 157, .4);
+      color: white;
+      transform: translate(0px, -7px);
+    }
 
-		/*Стиль окна вывода P разбиения*/
-		div.Mydiv {
-			margin: auto;
-			margin-top: 10px;
-			margin-bottom: 10px;
-			width: 100%;
-			max-width: 600px;
-			padding-top: 5px;
-			padding-bottom: 5px;
-			padding-left: 7px;
-			text-align: left;
-			font-size: 15px;
-			background: white;
-			border: solid 2px #2EE59D;
-			border-radius: 10px;
-			display: block;
-		}
+    /*Стиль окна вывода P разбиения*/
+    div.Mydiv {
+      margin: auto;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      width: 100%;
+      max-width: 600px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      padding-left: 7px;
+      text-align: left;
+      font-size: 15px;
+      background: white;
+      border: solid 2px #2EE59D;
+      border-radius: 10px;
+      display: block;
+    }
 
-		/*Стиль окна информации*/
-		div.informationBlock {
-			margin: auto;
-			margin-top: 15px;
-			margin-bottom: 15px;
-			width: 600px;
-			padding: 10px;
-			text-align: left;
-			font-weight: 400;
-			font-size: 17px;
-			border-radius: 10px;
-			background: lightgrey;
-		}
+    /*Стиль окна информации*/
+    div.informationBlock {
+      margin: auto;
+      margin-top: 15px;
+      margin-bottom: 15px;
+      width: 600px;
+      padding: 10px;
+      text-align: left;
+      font-weight: 400;
+      font-size: 17px;
+      border-radius: 10px;
+      background: lightgrey;
+    }
 
-		div.infoAboutSplitP {
-			margin: auto;
-			margin-top: 15px;
-			margin-bottom: 15px;
-			width: 600px;
-			padding: 10px;
-			text-align: left;
-			font-weight: 400;
-			font-size: 17px;
-			border-radius: 10px;
-			background: rgb(221, 79, 79);
-		}
+    div.infoAboutSplitP {
+      margin: auto;
+      margin-top: 15px;
+      margin-bottom: 15px;
+      width: 600px;
+      padding: 10px;
+      text-align: left;
+      font-weight: 400;
+      font-size: 17px;
+      border-radius: 10px;
+      background: rgb(221, 79, 79);
+    }
 
-		/*Стиль окна ввода*/
-		.inputP {
-			margin: 0 auto;
-			margin-bottom: 30px;
-			display: block;
-			width: 400px;
-			background: white;
-			border: solid 2px #2EE59D;
-			border-radius: 10px;
-			padding: 5px 7px;
+    /*Стиль окна ввода*/
+    .inputP {
+      margin: 0 auto;
+      margin-bottom: 30px;
+      display: block;
+      width: 400px;
+      background: white;
+      border: solid 2px #2EE59D;
+      border-radius: 10px;
+      padding: 5px 7px;
 
-			text-align: left;
-			font-size: 15px;
-		}
+      text-align: left;
+      font-size: 15px;
+    }
 
-		.inputMDFAstates,
-		.inputMDFAtransition {
-			margin: 0 auto;
-			display: inline;
-			background: white;
-			border: solid 2px #2EE59D;
-			border-radius: 10px;
-			text-align: center;
-			width: 20px;
-			height: 30px;
-		}
+    .inputMDFAstates,
+    .inputMDFAtransition {
+      margin: 0 auto;
+      display: inline;
+      background: white;
+      border: solid 2px #2EE59D;
+      border-radius: 10px;
+      text-align: center;
+      width: 20px;
+      height: 30px;
+    }
 
-		/* Таблица минимальной формы автомата */
-		table.flex {
-			background: none;
-			width: 500px;
-			border-spacing: 30px 0px;
-			margin: 0px auto;
-		}
+    /* Таблица минимальной формы автомата */
+    table.flex {
+      background: none;
+      width: 500px;
+      border-spacing: 30px 0px;
+      margin: 0px auto;
+    }
 
-		td.flex,
-		th.flex {
-			background: none;
-			width: 300px;
-			height: 60px;
-			text-align: center;
-		}
+    td.flex,
+    th.flex {
+      background: none;
+      width: 300px;
+      height: 60px;
+      text-align: center;
+    }
 
-		/* Всплывающее окно */
-		.b-popup {
-			width: 100%;
-			min-height: 100%;
-			background-color: rgba(0, 0, 0, 0.5);
-			overflow: hidden;
-			position: fixed;
-			top: 0px;
-		}
+    /* Всплывающее окно */
+    .b-popup {
+      width: 100%;
+      min-height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+      position: fixed;
+      top: 0px;
+    }
 
-		.b-popup .b-popup-content {
-			margin: 100px auto 0px auto;
-			border: solid 2px #2EE59D;
-			width: 60%;
-			height: 150px;
-			padding: 15px;
-			padding-top: 30px;
-			background-color: #c5c5c5;
-			border-radius: 5px;
-			box-shadow: 0px 0px 10px #000;
-			font-size: 20px;
-			text-align: center;
-		}
+    .b-popup .b-popup-content {
+      margin: 100px auto 0px auto;
+      border: solid 2px #2EE59D;
+      width: 60%;
+      height: 150px;
+      padding: 15px;
+      padding-top: 30px;
+      background-color: #c5c5c5;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px #000;
+      font-size: 20px;
+      text-align: center;
+    }
 
-		.b-popup_button {
-			margin: 0px auto;
-			margin-bottom: 5px;
-			margin-top: 50px;
-		}
+    .b-popup_button {
+      margin: 0px auto;
+      margin-bottom: 5px;
+      margin-top: 50px;
+    }
+    .b-popup_link {
+      margin: 0px auto;
+      margin-top: 30px;
+    }
 
-		.b_button {
-			margin: 0px 20px;
-			width: 80px;
-			height: 30px;
+    .b_button {
+      margin: 0px 20px;
+      width: 80px;
+      height: 30px;
 
-			letter-spacing: 2px;
-			font-size: 17px;
-		}
-	</style>
+      letter-spacing: 2px;
+      font-size: 17px;
+    }
+    .link {
+    text-decoration: none; /* Убирает нижнее подчеркивание */
+    letter-spacing: 2px;
+    font-size: 17px;
+    color: inherit; /* Наследует цвет текста от родительского элемента */
+    display: inline-block;
+    padding: 5px 10px;
+    border: 1px solid #131514;
+    transition: all 0.2s ease-in-out;
+    }
+
+    .link:hover {
+        color: blue; /* Изменяет цвет на синий при наведении */
+        border: 1px solid blue; /* Добавляет рамку при наведении */
+        transform: translateY(-3px); /* Поднимает элемент немного вверх */
+    }
+  </style>
 </head>
 
 <body onload="start();" style='overflow-x:hidden;'>
-	<div class="title">Минимизация конечных автоматов</div>
-	<script src='script.js'></script>
+  <div class="title">Минимизация конечных автоматов</div>
+  <script src='script.js'></script>
 </body>
 
 </html>

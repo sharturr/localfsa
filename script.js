@@ -19,8 +19,8 @@ var DFAstateColors = {};//объект с ключом состояние, а в
 var infotmationHowToMakeP1 = 'Постройте разбиение P1, т.е раскрасьте 1-эквивалентные состояния. Нажмите "Подтвердить", чтобы убедиться, что ваше разбиение верно.';
 var infotmationHowToMakeP2 = 'В дальнейшем вам необходимо перекрашивать лишь те состояния, которые образовали отдельный класс. Постройте разбиение P2. Если вы считаете, что текущее разбиение совпадает с предыдущим, то нажмите "Завершить"';
 var infoAboutSplitP = 'Внимание! Состояния не перенумеровывайте, а выбирайте по одному из разбиения!';
-//var info = 'Обратите внимание: при раскраске состояний, когда наводите курсор мыши на любой цвет — он подсвечивается голубым. Но раскрашено состояние будет в исходный цвет (тот, что до подсветки).'
-
+var info = 'К сожалению, вы не смогли выполнить задание. Повторите, пожалуйста, лекционный материал.'
+let count_left = 3;
 //Массив цветов для заполнения выпадающего списка
 const COLORS = ['#FFFFFF','#FF9999', '#FF0066', '#CC00CC', '#FF9900', '#6699CC', '#CCCC00', '#00CC66', '#FF3300'];
 const USING_COLORS = [];
@@ -50,15 +50,15 @@ const DFA3 = {
 
 let VAlueOfClass = []
 
-// const SET_OF_DFA = [DFA0, DFA1, DFA2, DFA3];
-// const RANDOM_DFA_FROM_SET = SET_OF_DFA[Math.floor(Math.random() * SET_OF_DFA.length)];
+const SET_OF_DFA = [DFA0, DFA1, DFA2, DFA3];
+const RANDOM_DFA_FROM_SET = SET_OF_DFA[Math.floor(Math.random() * SET_OF_DFA.length)];
 
-// const DFAofIntputsOutputs = RANDOM_DFA_FROM_SET;
-const DFAofIntputsOutputs = {
-	'I/S': ['1', '2', '3', '4'],
-	'a': ['3/0', '2/1', '3/0', '2/1'],
-	'b': ['2/0', '2/1', '2/0', '2/1']
-};
+const DFAofIntputsOutputs = RANDOM_DFA_FROM_SET;
+// const DFAofIntputsOutputs = {
+// 	'I/S': ['1', '2', '3', '4'],
+// 	'a': ['3/0', '2/1', '3/0', '2/1'],
+// 	'b': ['2/0', '2/1', '2/0', '2/1']
+// };
 
 for (let i = 0; i < DFAofIntputsOutputs['I/S'].length; i++) {
 	USING_COLORS.push(COLORS[i]);
@@ -279,8 +279,18 @@ function cofirmtAction(buttonId) {
 				createTable(DFAofInputs, arrColStates);
 				twoButtons();
 				fillAutomColor();
+				count_left = 3;
 			}
-			else myAlert("Неправильное разбиение");
+			else if (count_left<=0){
+				lecture_notify(info);
+				//
+				//  Your logic here....
+				//
+			}
+			else {
+				myAlert("Неправильное разбиение");
+				count_left--;
+			}
 			return (true);
 		} else {
 			myAlert("Подождем");
@@ -298,8 +308,18 @@ function cofirmtAction(buttonId) {
 				writeInfoAboutPsplit(arrColStates);
 				createEmptyMDFAtable(DFAofIntputsOutputs, Object.keys(arrColStates).length);
 				createButton(3, document.body);
+				count_left = 3;
 			}
-			else myAlert("Неправильно введенное количество состояний!");
+			else if (count_left<=0){
+				lecture_notify(info);
+				//
+				//  Your logic here....
+				//
+			}
+			else { 
+				myAlert("Неправильно введенное количество состояний!");
+				count_left--;
+			}
 			return (true);
 		}
 		else {
@@ -310,7 +330,7 @@ function cofirmtAction(buttonId) {
 	else if (buttonId == 'LastButton') {
 		createMDFA();
 		if (confirmAction == true) {
-			if (/*isStatesOfMDFA() && */isMDFAofDFA() && isSizeMDFA())/*(checkInputStates() == true)*/ {
+			if (isMDFAofDFA() && isSizeMDFA()) {
 				disableButton(buttonId);
 				createHrEl();
 				myAlert("Поздравляем, вы справились!");
@@ -325,7 +345,16 @@ function cofirmtAction(buttonId) {
 					createTable(MDFA, arrKeyMin);
 				}
 			}
-			else myAlert("Неправильно построена минимальная форма исходного автомата!");
+			else if (count_left<=0){
+				lecture_notify(info);
+				//
+				//  Your logic here....
+				//
+			}
+			else {
+				myAlert("Неправильно построена минимальная форма исходного автомата!");
+				count_left--;
+			}
 			return (true);
 		}
 		else {
@@ -871,13 +900,30 @@ function informationBlock(informationString) {
 	div.style.display = 'block';
 	document.body.appendChild(div);
 }
-function importantInfoAboutSplitP(informationString) {
-	var div = document.createElement('div');
-	div.className = 'infoAboutSplitP';
-	//if (isLastSplit) div.style.textAlign = 'center';
-	div.innerHTML = informationString;
-	div.style.display = 'block';
-	document.body.appendChild(div);
+
+function lecture_notify(text) {
+	var divpop = document.createElement('div');
+    divpop.className = 'b-popup';
+
+    var divcontent = document.createElement('div');
+    divcontent.className = 'b-popup-content';
+
+    divcontent.innerHTML = text + '<br>URL-ссылка';
+
+    var divbutton = document.createElement('div');
+    divbutton.className = 'b-popup_link';
+    var link = document.createElement('a');
+    link.className = "link";
+    link.innerHTML = 'Лекция';
+    link.href = '#';
+    link.onclick = function () {
+        divpop.style.visibility = 'hidden';
+        return false;
+    };
+    divbutton.appendChild(link);
+    divcontent.appendChild(divbutton);
+    divpop.appendChild(divcontent);
+    document.body.appendChild(divpop);
 }
 
 //Функция, которая вызывается при загрузке сайта
