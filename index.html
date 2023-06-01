@@ -20,28 +20,41 @@
       /* background: url(#); */
     }
 
-    /* <Боковая панель цветов> */
-    .sidenav {
-      width: 70px;
-      position: fixed;
-      z-index: 1;
-      top: 70px;
-      left: 10px;
-      background: lightgrey;
-      overflow-x: hidden;
-      border-radius: 30px;
-      padding: 5px 0px;
-    }
+    /* Базовые стили */
+.sidenav {
+  width: 4.375em;
+  position: fixed;
+  z-index: 1;
+  top: 10.375em;
+  left: 0.625em;
+  background: lightgrey;
+  overflow-x: hidden;
+  border-radius: 1.875em;
+  padding: 0.3125em 0;
+}
 
-    .ColorBox {
-      margin: auto;
-      margin-top: 15px;
-      margin-bottom: 15px;
-      width: 40px;
-      height: 40px;
-      display: block;
-      border-radius: 20px;
-    }
+.ColorBox {
+  margin: auto;
+  margin-top: 0.9375em;
+  margin-bottom: 0.9375em;
+  width: 2.5em;
+  height: 2.5em;
+  display: block;
+  border-radius: 1.25em;
+}
+
+/* Адаптивные стили */
+.sidenav {
+  width: 3.125em;
+  left: 0.3125em;
+}
+
+.ColorBox {
+  margin-top: 0.625em;
+  margin-bottom: 0.625em;
+  width: 1.875em;
+  height: 1.875em;
+}
 
     /* Шапка сайта */
     .title {

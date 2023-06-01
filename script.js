@@ -44,7 +44,7 @@ const DFA2 = {
 };
 const DFA3 = {
   'I/S': ['1', '2', '3', '4', '5', '6'],
-  'a': ['2/0', '1/1', '1/0', '1/0', '2/1', '1/1',],
+  'a': ['2/0', '1/1', '2/0', '1/0', '2/1', '1/1',],
   'b': ['3/0', '2/0', '3/0', '5/0', '5/0', '6/0',],
 };
 
@@ -254,8 +254,11 @@ function writeInfoAboutPsplit(obj) {
 //проверка ответа cmi.core.lesson_status
 var completionStatus = ScormProcessGetValue("cmi.core.lesson_status", true);
 if (completionStatus == "unknown"){
-    ScormProcessSetValue("cmi.core.lesson_status  ", "incomplete");
+    ScormProcessSetValue("cmi.core.lesson_status", "incomplete");
 }
+// else{
+// 	ScormProcessSetValue("cmi.core.lesson_status", "failed");
+// }
 //Кнопка подтверждения
 function cofirmtAction(buttonId) {
   getInfoFromMDFAtable();
@@ -309,7 +312,7 @@ function cofirmtAction(buttonId) {
         isLastSplit = true;
         disableButton(buttonId);
         createHrEl();
-        informationBlock('Ориентируясь на финальное разбиение P и исходную таблицу входов-выходов, введите в таблицу минимальную форму исходного автомата:');
+        informationBlock('Ориентируясь на финальное разбиение P и исходную таблицу переходов-выходов, введите в таблицу минимальную форму исходного автомата:');
         createTable(DFAofIntputsOutputs);
         writeInfoAboutPsplit(arrColStates);
         createEmptyMDFAtable(DFAofIntputsOutputs, Object.keys(arrColStates).length);
@@ -342,15 +345,15 @@ function cofirmtAction(buttonId) {
         createHrEl();
         myAlert("Поздравляем, вы справились!");
         if (!compareObjects(oldMDFA, MDFA)){
-          informationBlock('Таблица минимальной формы исходного конечного автомата:');
+          informationBlock(`Таблица минимальной формы конечного автомата <br> (состояния исходного конечного автомата переименованы как {${VAlueOfClass}}`);
           createTable(MDFA, arrKeyMin);
           ScormProcessSetValue("cmi.core.lesson_status", "passed");
           ScormProcessSetValue("cmi.core.lesson_status", "completed");
         }
         else{
-          informationBlock('Таблица   минимальной формы исходного конечного автомата, при изначальных обозначениях:');
+          informationBlock(`Таблица минимальной формы конечного автомата <br> (состояния исходного конечного автомата переименованы как {${VAlueOfClass}}`);
           createTable(oldMDFA, arrKeyMin);
-          informationBlock('Таблица  минимальной формы исходного конечного автомата, при ваших введёных обозначениях:');
+          informationBlock(`Таблица минимальной формы конечного автомата <br> (состояния исходного конечного автомата переименованы как {${MDFA['I/S']}}`);
           createTable(MDFA, arrKeyMin);
           ScormProcessSetValue("cmi.core.lesson_status", "passed");
           ScormProcessSetValue("cmi.core.lesson_status", "completed");
@@ -931,7 +934,7 @@ function lecture_notify(text) {
     link.target = "_blank";
     link.onclick = function () {
         divpop.style.visibility = 'hidden';
-        return false;
+        return true;
     };
     divbutton.appendChild(link);
     divcontent.appendChild(divbutton);
@@ -994,9 +997,29 @@ function end(EndbuttonId, numOfSplits) {
         enterNumOfStatesMDFA();
         createButton(2, document.body);
       }
-      else myAlert("Вы построили не все разбиения!");
+      else if (count_left<=0){
+        lecture_notify(info);
+        //
+        //  Your logic here....
+        //
+        ScormProcessSetValue("cmi.core.lesson_status", "failed");
+      }
+      else {
+        myAlert("Вы построили не все разбиения!");
+        count_left--;
+      }
     }
-    else myAlert("Вы построили не все разбиения!");
+    else if (count_left<=0){
+      lecture_notify(info);
+      //
+      //  Your logic here....
+      //
+      ScormProcessSetValue("cmi.core.lesson_status", "failed");
+    }
+    else {
+      myAlert("Вы построили не все разбиения!");
+      count_left--;
+    }
     return (true);
   } else {
     myAlert("Подождем");
